@@ -26,7 +26,7 @@ const Login = () => {
           },
         });
       } else {
-        setErrorMessage(response.data.msg);
+        setErrorMessage(response.msg);
         toast.error(errorMessage);
       }
     } catch (error) {

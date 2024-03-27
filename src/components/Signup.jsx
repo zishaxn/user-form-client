@@ -45,7 +45,7 @@ const Signup = () => {
     try {
       const response = await axios.post(signup, { ...formData, password });
 
-      console.log(response.data.user.firstName);
+      console.log(response.user.firstName);
 
       navigate("/dashboard", {
         state: {

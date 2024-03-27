@@ -1,11 +1,23 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const location = useLocation();
-  const { firstName, lastName } = location.state || {};
+  const { firstName, lastName, isLogin } = location.state || {};
 
-  console.log(firstName, lastName);
+  useEffect(() => {
+    console.log("it came here", isLogin);
+    if (!isLogin) {
+      navigate("/");
+    }
+  }, [isLogin, navigate]);
+
+  const handleLogout = () => {
+    navigate("/");
+  };
 
   return (
     <>
@@ -15,6 +27,7 @@ const Dashboard = () => {
           <button
             type="button"
             class="px-4 py-2 rounded-full bg-blue-500 hover:bg-blue-700 text-white font-bold focus:outline-none"
+            onClick={handleLogout}
           >
             Logout
           </button>

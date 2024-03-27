@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../API/APIRoutes";
@@ -10,6 +10,7 @@ const Login = () => {
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLogin, setIsLogin] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,10 +20,13 @@ const Login = () => {
 
       if (response.data.status) {
         console.log(response.data.user.firstName, response.data.user.lastName);
+        setIsLogin(true);
         navigate("/dashboard", {
           state: {
             firstName: response.data.user.firstName,
             lastName: response.data.user.lastName,
+            isLogin: true,
+            
           },
         });
       } else {

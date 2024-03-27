@@ -9,6 +9,7 @@ import { signup } from "../API/APIRoutes";
 
 const Signup = () => {
   const navigate = useNavigate();
+    const [isLogin, setIsLogin] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -50,6 +51,7 @@ const Signup = () => {
         state: {
           firstName: response.data.user.firstName,
           lastName: response.data.user.lastName,
+          isLogin: true,
         },
       });
 

@@ -49,8 +49,8 @@ const Signup = () => {
 
       navigate("/dashboard", {
         state: {
-          firstName: response.data.user.firstName,
-          lastName: response.data.user.lastName,
+          firstName: response.user.firstName,
+          lastName: response.user.lastName,
           isLogin: true,
         },
       });

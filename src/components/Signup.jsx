@@ -9,7 +9,7 @@ import { signup } from "../API/APIRoutes";
 
 const Signup = () => {
   const navigate = useNavigate();
-    const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -45,7 +45,7 @@ const Signup = () => {
     try {
       const response = await axios.post(signup, { ...formData, password });
 
-      console.log(response.user.firstName);
+      // console.log(response.user.firstName);
 
       navigate("/dashboard", {
         state: {
@@ -55,7 +55,7 @@ const Signup = () => {
         },
       });
 
-      if (response) {
+      if (response.status == true) {
         alert("User register");
       }
     } catch (error) {

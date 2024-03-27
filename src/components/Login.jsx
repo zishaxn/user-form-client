@@ -1,27 +1,37 @@
-// Login.jsx
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../API/APIRoutes";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(login, { username, password }); // Redirect to dashboard after successful login
-      // Handle successful login
-      // navigate("/dashboard")
-      if (response) {
-        alert("Login Success");
+      const response = await axios.post(login, { mobile, password });
+
+      if (response.data.status) {
+        console.log(response.data.user.firstName, response.data.user.lastName);
+        navigate("/dashboard", {
+          state: {
+            firstName: response.data.user.firstName,
+            lastName: response.data.user.lastName,
+          },
+        });
+      } else {
+        setErrorMessage(response.data.msg);
+        toast.error(errorMessage);
       }
     } catch (error) {
-      // Handle login error
       console.error("Login failed:", error);
+      setErrorMessage("An error occurred during login");
     }
   };
 
@@ -36,10 +46,11 @@ const Login = () => {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <input
             type="text"
-            placeholder="Username or Number"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Mobile Number"
+            value={mobile}
+            onChange={(e) => setMobile(e.target.value)}
             className="block w-full border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            required
           />
           <input
             type="password"
@@ -47,6 +58,7 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="block w-full border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mt-4"
+            required
           />
           <button
             type="submit"
@@ -65,6 +77,7 @@ const Login = () => {
           </Link>
         </p>
       </div>
+      <ToastContainer position="bottom-right" autoClose={5000} />
     </div>
   );
 };

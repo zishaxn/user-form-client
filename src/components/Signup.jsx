@@ -44,7 +44,14 @@ const Signup = () => {
     try {
       const response = await axios.post(signup, { ...formData, password });
 
-      navigate("/dashboard");
+      console.log(response.data.user.firstName);
+
+      navigate("/dashboard", {
+        state: {
+          firstName: response.data.user.firstName,
+          lastName: response.data.user.lastName,
+        },
+      });
 
       if (response) {
         alert("User register");

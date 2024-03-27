@@ -46,17 +46,17 @@ const Signup = () => {
       const response = await axios.post(signup, { ...formData, password });
 
       // console.log(response.user.firstName);
-
-      navigate("/dashboard", {
-        state: {
-          firstName: response.user.firstName,
-          lastName: response.user.lastName,
-          isLogin: true,
-        },
-      });
-
-      if (response.status == true) {
+      console.log(response);
+      if (response) {
+        console.log(response);
         alert("User register");
+        navigate("/dashboard", {
+          state: {
+            // firstName: response.data.user.firstName,
+            // lastName: response.data.user.lastName,
+            isLogin: true,
+          },
+        });
       }
     } catch (error) {
       // Handle signup error

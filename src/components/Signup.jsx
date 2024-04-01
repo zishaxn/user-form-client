@@ -1,4 +1,3 @@
-// Signup.jsx
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,7 +8,6 @@ import { signup } from "../API/APIRoutes";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -45,18 +43,17 @@ const Signup = () => {
     try {
       const response = await axios.post(signup, { ...formData, password });
 
-      // console.log(response.user.firstName);
-      console.log(response);
-      if (response) {
-        console.log(response);
-        alert("User register");
+      if (response.data.status) {
+        const { firstName, lastName } = formData;
         navigate("/dashboard", {
           state: {
-            // firstName: response.data.user.firstName,
-            // lastName: response.data.user.lastName,
+            firstName,
+            lastName,
             isLogin: true,
           },
         });
+      } else {
+        toast.error(response.data.msg);
       }
     } catch (error) {
       // Handle signup error
@@ -85,7 +82,6 @@ const Signup = () => {
     // date of birth
     const currentDate = new Date();
     const enteredDate = new Date(dob);
-    console.log(enteredDate);
     if (enteredDate >= currentDate) {
       errors.dob = "Date of birth cannot be in the future";
     }
